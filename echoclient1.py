@@ -4,20 +4,26 @@ def main(argv):
 
     verbose = False
     message = "Echo"
+    port = 10000;
+    server = "localhost"
 
     try:
-        opts, args = getopt.getopt(argv, "vm:",["message="])
+        opts, args = getopt.getopt(argv, "vm:p:s:",["message=","port=","server="])
     except getopts.GetoptError:
-        print "Usage: python " + sys.argv[0] + " [-m message]"
+        print "Usage: python " + sys.argv[0] + " [-m <message> -p port -s server]"
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-v":
             verbose = True;
         elif opt in ("-m", "--message"):
             message = arg;
+        elif opt in ("-p", "--port"):
+            port = arg
+        elif opt in ("-s", "--server"):
+            server = arg
     
     socket = SOCKET.socket(SOCKET.AF_INET, SOCKET.SOCK_STREAM)
-    server_address = ("localhost", 10000)
+    server_address = (server, port)
     
     print "connecting to %s on port %s" % server_address
     socket.connect(server_address)
